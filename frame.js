@@ -1,12 +1,10 @@
-
-
 const contacts = {
 	"lmahaffey@wcpss.net": "Ms. Lindsay Mahaffey, Chair WCPSS Board",
 	"cqmoore@wcpss.net": "Superintendent Moore, WCPSS",
 	"parents@stopclassrank.com": "Test Email",
 }
 
-const personOptions = ["Freshman", "Sophomore", "Junior", "Senior", "Parent", "Student"]
+const personOptions = ["Freshman", "Sophomore", "Junior", "Senior", "Parent", "Student", "Staff Member"]
 
 
 let message = generateMessage({
