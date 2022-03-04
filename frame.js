@@ -26,6 +26,7 @@ const highSchoolInput = {
 	"type": "text",
 	"name": "school",
 	"title": "Your School: ",
+	choices: window.ncSchools,
 	"isRequired": true,
 	"placeHolder": "Please enter school...",
 	visibleIf: "{personType} != {default} and {personType} != 'Parent'"
@@ -33,10 +34,6 @@ const highSchoolInput = {
 const highSchoolParentInput = Object.assign({}, highSchoolInput)
 highSchoolParentInput.title = "Your Child's School: "
 delete highSchoolParentInput.visibleIf
-
-Survey
-.StylesManager
-.applyTheme("modern");
 
 let json = {
 	showQuestionNumbers: "off",
@@ -52,13 +49,6 @@ let json = {
 
 		personTypeDropdown,
 		highSchoolInput,
-
-
-
-
-
-
-
 
 		{
 			"type": "paneldynamic",
@@ -78,6 +68,8 @@ let json = {
 
 	]
 };
+
+Survey.StylesManager.applyTheme("modern");
 
 window.survey = new Survey.Model(json);
 
