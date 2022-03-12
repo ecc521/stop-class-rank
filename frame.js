@@ -209,13 +209,18 @@ function generateMessage() {
 	let children = survey.data.children || []
 	let childTerm = children.length > 1 ? "children" : "child"
 
+	let mostRecentClass;
+	function updateForClass(nextClass) {
+		if (!mostRecentClass) {mostRecentClass = nextClass}
+		if (nextClass < mostRecentClass) {mostRecentClass = nextClass}
+	}
+
 	let replacements = {
 		"$IOrWe": typeOfPerson === "parent" ? "We" : "I",
 		"$wasOrWere": typeOfPerson === "parent" ? "were" : "was", //I was, we were
 		"$IOrMy": typeOfPerson === "parent" ? `My ${childTerm}` : "I",
 		"$areOrAmOrIs": typeOfPerson === "parent" ? (children.length > 1 ? "are" : "is") : "am",
 		"$theirOrMy": typeOfPerson === "parent" ? "their" : "my",
-
 	}
 
 	if (typeOfPerson === "parent") {
@@ -223,6 +228,8 @@ function generateMessage() {
 		for (let i=0;i<children.length;i++) {
 			let child = children[i]
 			message += ` a ${classTranslations[child.class]} at ${child.school}`
+			updateForClass(child.class)
+
 			if (i != children.length - 1 && children.length >= 2) {
 				if (children.length > 2) {
 					message += ", "
@@ -239,13 +246,38 @@ function generateMessage() {
 	}
 	else if (typeOfPerson === "student") {
 		message += `${classTranslations[data.class]} at ${school}. `
+		updateForClass(data.class)
 	}
 	else {
 		message += `${typeOfPerson} at ${school}. `
 	}
 
+
+	//Flags:
+	// mostRecentClass
+
+	let meOrMy = typeOfPerson === "parent" ? `my ${childTerm}&#39;s` : "me"
+	let themOrUs = typeOfPerson === "student" ? "us":"them"
+
+	message += `<br><br>`
+	message += `I am requesting that WCPSS eliminate class rank from transcripts. `
+	message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that WCPSS provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
+
+	message += `<br><br>`
+
+	message += `WCPSS runs some of the best and most competitive schools in the country. `
+	message += `Removing class rank will allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
+	message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not GPA. `
+	message += `Additionally, this action is entirely in the hands of WCPSS - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and WCPSS's goals cannot be achieved as long as a 1 to n class rank remains. `
+
+	message += `<br><br>`
+
+	message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. `
+	message += `The class rank for WCPSS is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
+	message += `Class Rank places ${themOrUs} at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
+
 	if (data.reasons?.length && typeOfPerson != "staff member") {
-		message += `<br><br>The following problems negatively impacted my ${typeOfPerson === "parent" ? `${childTerm}'s `: ""}class rank: `
+		message += `<br><br>Producing a rank for ${typeOfPerson === "parent" ? `my ${childTerm}`: "me"} is unfair because: `
 		for (let i=0;i<data.reasons.length;i++) {
 			let reason = data.reasons[i]
 			let translatedReason = reasonsForClassRank[reason]
@@ -259,6 +291,22 @@ function generateMessage() {
 			message += `<br> - ${translatedReason}`
 		}
 	}
+
+
+	//Add stuff about overcompetitveness
+
+	message += `Class Rank is harmful and we request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
+
+	message += `<br><br>`
+
+	message += `I appreciate the time and effort the school board puts into providing the best possible education for our children, and look forward to hearing from you on this matter. If you would like to discuss this request further, please contact me. `
+
+	message +=`<br><br>Thank you for your time, service, and consideration.
+<br><br>Sincerely,
+<br>${name}
+<br>${data.personType} ${typeOfPerson === "student" ? school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}
+<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}
+`
 
 	return message
 }
@@ -277,5 +325,5 @@ function generateMailto({
 
 setTimeout(function() {
 	//Attempt to enlarge textarea.
-	document.getElementById("cke_1_contents").style.height = "700px"
+	document.getElementById("cke_1_contents").style.height = "1000px"
 }, 2000)
