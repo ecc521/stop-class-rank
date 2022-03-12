@@ -7,21 +7,28 @@ const contacts = {
 const studentClassOptions = ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029"]
 const personOptions = ["Parent", "Staff Member", "Student"]
 
-let reasonsForClassRank = [
-	"I was never informed about class rank",
-	"I thought class rank had been replaced with Latin Honors",
-	"I thought class rank did not matter",
-	"Primary courses selections were denied",
-	"Advice to not use PC19",
-	"Advice to not take AP courses freshman year",
-	"Advice to take fewer APs for a balanced schedule",
-	"Selecting interesting courses",
-	"Selecting courses for career goals",
-	"Not placing out of introductory language courses",
-	"Excessive Competitiveness of High School",
-	"Taking fewer APs due to extracurriculars",
-	"Rejected Schedule Changes",
-]
+
+// $IOrWe
+// $wasOrWere
+// $IOrMy - I or my child/children
+// $areOrAmOrIs
+// $theirOrMy
+
+let reasonsForClassRank = {
+	"I was never informed about class rank": "$IOrWe $wasOrWere never informed about class rank",
+	"I understood class rank had been replaced with Latin Honors": "$IOrWe understood class rank had been replaced with Latin Honors",
+	"I was led to believe class rank did not matter": "$IOrWe $wasOrWere led to believe class rank did not matter",
+	"Advice to not use PC19 (Classes of 2022 and 2023 Only)": "$IOrMy did not use PC19 due to the advice from the school and $areOrAmOrIs ranked below students who used PC19 to raise their weighted GPA",
+	"Primary courses selections were not received": "$IOrMy did not receive their primary course selections",
+	"Rejected Schedule Changes": "$IOrMy had schedule changes requests declined",
+	"Advice to not take AP courses freshman year": "$IOrMy did not take AP courses freshman year because of the advice from the school",
+	"Advice to take fewer APs for a balanced schedule": "$IOrMy took fewer APs to provide a balanced schedule based on advice from the school",
+	"Taking fewer APs due to extracurriculars": "$IOrMy took fewer APs in order to participate in extracurricular activities, important for college admissions and scholarship as well as health and happiness",
+	"Selecting interesting courses": "$IOrMy selected courses based on $theirOrMy interests and not GPA",
+	"Selecting courses for career goals": "$IOrMy selected courses based on $theirOrMy career goals and not GPA",
+	"Not placing out of introductory language courses": "$IOrMy did not place out of introductory language courses, resulting in two required academic electives that students ranked ahead were not all required to take",
+}
+
 
 let classTranslations = {
 	"2022": "Senior",
@@ -113,10 +120,11 @@ let json = {
 
 		{
 			name: "reasons",
+			visibleIf: "{personType} != 'Staff Member'",
 			type: "checkbox",
-			title: "Which of the following have negatively impacted you/your childrens' class rank?",
+			title: "Have any of the following have negatively impacted you/your childrens' class rank?",
 			colCount: 1,
-			choices: reasonsForClassRank
+			choices: Object.keys(reasonsForClassRank)
 		},
 
 		{
@@ -199,6 +207,16 @@ function generateMessage() {
 	let message = `My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 
 	let children = survey.data.children || []
+	let childTerm = children.length > 1 ? "children" : "child"
+
+	let replacements = {
+		"$IOrWe": typeOfPerson === "parent" ? "We" : "I",
+		"$wasOrWere": typeOfPerson === "parent" ? "were" : "was", //I was, we were
+		"$IOrMy": typeOfPerson === "parent" ? `My ${childTerm}` : "I",
+		"$areOrAmOrIs": typeOfPerson === "parent" ? (children.length > 1 ? "are" : "is") : "am",
+		"$theirOrMy": typeOfPerson === "parent" ? "their" : "my",
+
+	}
 
 	if (typeOfPerson === "parent") {
 		message += `parent with `
@@ -226,10 +244,19 @@ function generateMessage() {
 		message += `${typeOfPerson} at ${school}. `
 	}
 
-	if (data.reasons?.length) {
-		message += `<br><br>The following problems negatively impacted ${typeOfPerson === "parent" ? `my ${children.length > 1 ? "children's" : "child's"}` : "my"} class rank: `
+	if (data.reasons?.length && typeOfPerson != "staff member") {
+		message += `<br><br>The following problems negatively impacted my ${typeOfPerson === "parent" ? `${childTerm}'s `: ""}class rank: `
 		for (let i=0;i<data.reasons.length;i++) {
-			message += `<br> - ${data.reasons[i]}`
+			let reason = data.reasons[i]
+			let translatedReason = reasonsForClassRank[reason]
+			if (!translatedReason) {
+				console.warn("Can't translate", reason, reasonsForClassRank)
+				continue
+			}
+			for (let replacement in replacements) {
+				translatedReason = translatedReason.replaceAll(replacement, replacements[replacement])
+			}
+			message += `<br> - ${translatedReason}`
 		}
 	}
 
