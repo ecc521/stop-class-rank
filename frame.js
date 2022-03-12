@@ -4,74 +4,91 @@ const contacts = {
 	"parents@stopclassrank.com": "Test Email",
 }
 
-const studentClassOptions = ["Senior", "Junior", "Sophomore", "Freshman", "8th Grader", "Student"]
-const personOptions = ["Parent", "Staff Member"].concat(studentClassOptions)
 
-const personTypeDropdown = {
-	"type": "dropdown",
-	"name": "personType",
-	"title": "You are a ",
-	"isRequired": true,
-	"colCount": 0,
-	"hasNone": false,
-	"choices": personOptions,
-}
+const studentClassOptions = ["2022", "2023", "2024", "2025", "2026"]
+const personOptions = ["Parent", "Staff Member", "Student"]
 
-const studentTypeDropdown = Object.assign({}, personTypeDropdown)
-studentTypeDropdown.title = "Child #{panelIndex} is a "
-studentTypeDropdown.choices = studentClassOptions
-
-//TODO: Offer autoComplete for NC High Schools.
-const highSchoolInput = {
-	"type": "text",
-	"name": "school",
-	"title": "Your School: ",
-	choices: window.ncSchools,
-	"isRequired": true,
-	"placeHolder": "Please enter school...",
-	visibleIf: "{personType} != {default} and {personType} != 'Parent'"
-}
-const highSchoolParentInput = Object.assign({}, highSchoolInput)
-highSchoolParentInput.title = "Your Child's School: "
-delete highSchoolParentInput.visibleIf
 
 let json = {
+	//showNavigationButtons: false,
 	showQuestionNumbers: "off",
 	"elements": [
 		{
-			"name": "name",
-			type: "text",
-			"title": "Name: ",
-			"placeHolder": "Please enter your name...",
-			"isRequired": true,
-			"autoComplete": "name"
+			type: "dropdown",
+			name: "personType",
+			title: "I am a ",
+			isRequired: true,
+			colCount: 0,
+			hasNone: false,
+			choices: personOptions,
 		},
-
-		personTypeDropdown,
-		highSchoolInput,
 
 		{
-			"type": "paneldynamic",
-			"name": "children",
-			visibleIf: "{personType} == 'Parent'",
-			"title": "Affected Children of Yours: ",
-			"keyName": "name",
-			"showQuestionNumbers": "off",
-			"templateElements": [
-				studentTypeDropdown,
-				highSchoolParentInput
-			],
-			"minPanelCount": 1,
-			"panelAddText": "Add Another Child",
-			"panelRemoveText": "Remove Child"
+			name: "name",
+			type: "text",
+			title: "My name is: ",
+			placeHolder: "Please enter your name...",
+			isRequired: true,
+			autoComplete: "name"
 		},
 
+		{
+			type: "dropdown",
+			name: "grade",
+			visibleIf: "{personType} == 'Student'",
+			title: "I am in the class of ",
+			hasOther: true,
+			isRequired: true,
+			choices: studentClassOptions,
+		},
+		{
+			type: "text",
+			visibleIf: "{personType} notempty and {personType} != 'Parent'",
+			isRequired: true,
+			name: "school",
+			title: "My School is: ",
+			placeHolder: "Enter School... ",
+		},
+		{
+			type: "matrixdynamic",
+			visibleIf: "{personType} == 'Parent'",
+			name: "children",
+			rowCount: 1,
+			minRowCount: 1,
+			title: "Affected Children",
+			addRowText: "Add Student",
+			removeRowText: "Remove Student",
+			isRequired: true,
+			columns: [
+				{
+					name: "grade",
+					title: "Class of",
+					isRequired: true,
+					hasOther: true,
+					choices: studentClassOptions
+				},
+				{
+					cellType: "text",
+					isRequired: true,
+					name: "school",
+					title: "School",
+					placeHolder: "Enter School... ",
+				},
+			]
+		},
+		{
+            type: "editor",
+            name: "ckeditor",
+            title: "CK Editor"
+        },
 	]
 };
 
 Survey.StylesManager.applyTheme("modern");
 
 window.survey = new Survey.Model(json);
+
+
 
 survey
 .onComplete
