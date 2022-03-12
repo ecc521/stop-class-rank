@@ -251,7 +251,7 @@ function generateMessage() {
 
 setTimeout(function() {
 	//Attempt to enlarge textarea.
-	document.getElementById("cke_1_contents").style.height = "80vh"
+	document.getElementById("cke_1_contents").style.height = "700px"
 }, 2000)
 
 
