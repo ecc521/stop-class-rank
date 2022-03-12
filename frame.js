@@ -24,8 +24,8 @@ let reasonsForClassRank = {
 	"Advice to not take AP courses freshman year": "$IOrMy did not take AP courses freshman year because of the advice from the school",
 	"Advice to take fewer APs for a balanced schedule": "$IOrMy took fewer APs to provide a balanced schedule based on advice from the school",
 	"Taking fewer APs due to extracurriculars": "$IOrMy took fewer APs in order to participate in extracurricular activities, important for college admissions and scholarship as well as health and happiness",
-	"Selecting interesting courses": "$IOrMy selected courses based on $theirOrMy interests and not GPA",
-	"Selecting courses for career goals": "$IOrMy selected courses based on $theirOrMy career goals and not GPA",
+	"Selecting interesting courses": "$IOrMy selected courses based on $theirOrMy interests and not weighted GPA",
+	"Selecting courses for career goals": "$IOrMy selected courses based on $theirOrMy career goals and not weighted GPA",
 	"Not placing out of introductory language courses": "$IOrMy did not place out of introductory language courses, resulting in two required academic electives that students ranked ahead were not all required to take",
 }
 
@@ -215,6 +215,14 @@ function generateMessage() {
 		if (nextClass < mostRecentClass) {mostRecentClass = nextClass}
 	}
 
+	let isKnownOvercompetitiveSchool;
+	function updateForSchool(nextSchool) {
+		nextSchool = nextSchool?.toLowerCase() || ""
+		if (nextSchool.includes("green hope") || nextSchool.includes("panther creek") || nextSchool.includes("green level") || nextSchool.includes("enloe")) {
+			isKnownOvercompetitiveSchool = true;
+		}
+	}
+
 	let replacements = {
 		"$IOrWe": typeOfPerson === "parent" ? "We" : "I",
 		"$wasOrWere": typeOfPerson === "parent" ? "were" : "was", //I was, we were
@@ -229,6 +237,7 @@ function generateMessage() {
 			let child = children[i]
 			message += ` a ${classTranslations[child.class]} at ${child.school}`
 			updateForClass(child.class)
+			updateForSchool(child.school)
 
 			if (i != children.length - 1 && children.length >= 2) {
 				if (children.length > 2) {
@@ -247,6 +256,7 @@ function generateMessage() {
 	else if (typeOfPerson === "student") {
 		message += `${classTranslations[data.class]} at ${school}. `
 		updateForClass(data.class)
+		updateForSchool(school)
 	}
 	else {
 		message += `${typeOfPerson} at ${school}. `
@@ -267,7 +277,7 @@ function generateMessage() {
 
 	message += `WCPSS runs some of the best and most competitive schools in the country. `
 	message += `Removing class rank will allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
-	message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not GPA. `
+	message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not weighted GPA. `
 	message += `Additionally, this action is entirely in the hands of WCPSS - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and WCPSS's goals cannot be achieved as long as a 1 to n class rank remains. `
 
 	message += `<br><br>`
@@ -292,8 +302,11 @@ function generateMessage() {
 		}
 	}
 
+	if (isKnownOvercompetitiveSchool) {
+		message += `<br><br>Our WCPSS public high schools - particularly Green Level, Green Hope, Panther Creek, and Enloe - are highly competitive. Far more than half the students are on path to be recognized with WCPSS Latin Honors Summa Cum Laude or Magna Cum Laude recognition, and yet their college applications will be judged on numeric ranks in the bottom 50% rather than their WCPSS Latin Honors recognition. At least 25% of the students at every one of these schools are identified as AIG, far too many for an accurate class ranking. 25+% will never fit in the Top 10%. There are far more than ten "Top 10" quality students. There are too many exceptional students to provide a 1 to n ranking. `
+	}
 
-	//Add stuff about overcompetitveness
+	message += `<br><br>`
 
 	message += `Class Rank is harmful and we request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
 
