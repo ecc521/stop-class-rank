@@ -324,7 +324,10 @@ function generateMessage(style = "email") {
 	let contact = contacts[data.contact]
 
 	if (style === "email") {
-		message += `Dear ${contact?.name},`
+		//We'll cut out the first name from the email. 
+		let contactIntroductionName = contact?.name?.split(" ")
+		contactIntroductionName = contactIntroductionName?.[0] + " " + contactIntroductionName?.[2]
+		message += `Dear ${contactIntroductionName},`
 		message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 	}
 	else {
