@@ -1,20 +1,21 @@
 const defaultContact = "lmahaffey@wcpss.net"
 
 const contacts = {
+	//https://www.wcpss.net/Page/5472
 	"hscott@wcpss.net": {name: "Ms. Heather Scott", title: "WCPSS Board (District 1)", style: "WCPSS"},
 	"mjohnsonhostler@wcpss.net": {name: "Ms. Monika Johnson-Hostler", title: "WCPSS Board (District 2)", style: "WCPSS"},
 	"rcash@wcpss.net": {name: "Ms. Roxie Cash", title: "WCPSS Board (District 3)", style: "WCPSS"},
 	//District 4 Vacant
 	"jmartin4@wcpss.net": {name: "Dr. Jim Martin", title: "WCPSS Board (District 5)", style: "WCPSS"},
 	"ckushner@wcpss.net": {name: "Mrs. Christine Kushner", title: "WCPSS Board (District 6)", style: "WCPSS"},
-	"jheagarty@wcpss.net": {name: "Mr. Chris Heagarty", title: "WCPSS Board Vice-Chair (District 7)", style: "WCPSS"},
-	"lmahaffey@wcpss.net": {name: "Ms. Lindsay Mahaffey", title: "WCPSS Board Chair (District 8)", style: "WCPSS"},
+	"jheagarty@wcpss.net": {name: "Vice-Chairman Chris Heagarty", title: "WCPSS Board (District 7)", style: "WCPSS"},
+	"lmahaffey@wcpss.net": {name: "Chairwoman Lindsay Mahaffey", title: "WCPSS Board (District 8)", style: "WCPSS"},
 	"kcarter3@wcpss.net": {name: "Ms. Karen Carter", title: "WCPSS Board (District 9)", style: "WCPSS"},
 
-	"cqmoore@wcpss.net": {name: "Ms. Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
+	"cqmoore@wcpss.net": {name: "Superintendent Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
 
 	"amy.white@dpi.nc.gov": {name: "Ms. Amy White", title: "North Carolina Board of Education", style: "NC"},
-	"Catherine.Truitt@dpi.nc.gov": {name: "Ms. Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
+	"Catherine.Truitt@dpi.nc.gov": {name: "Superintendent Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
 }
 
 const subjects = [
@@ -324,7 +325,7 @@ function generateMessage(style = "email") {
 	let contact = contacts[data.contact]
 
 	if (style === "email") {
-		//We'll cut out the first name from the email. 
+		//We'll cut out the first name from the email.
 		let contactIntroductionName = contact?.name?.split(" ")
 		contactIntroductionName = contactIntroductionName?.[0] + " " + contactIntroductionName?.[2]
 		message += `Dear ${contactIntroductionName},`
