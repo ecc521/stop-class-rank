@@ -161,13 +161,11 @@ let json = {
 			choices: Object.keys(contacts).map((contactEmail) => {return {text: `${contacts[contactEmail].name} - ${contacts[contactEmail].title}` , value: contactEmail}}),
 			defaultValue: defaultContact,
 		},
-
 		{
 			type: "html",
 			name: "dynamicInfo",
 			html: ``
 		},
-
 		{
             type: "editor",
             name: "editor",
@@ -248,13 +246,8 @@ function updateSurveyMessage() {
 	editor.value = generateMessage()
 
 	survey.getQuestionByName("dynamicInfo").html = `<div id="dynamicContainer"></div>`
+	survey.render()
 	let container = document.getElementById("dynamicContainer")
-
-	if (!container) {
-		//Must not have rendered yet. Try again shortly.
-		setTimeout(updateSurveyMessage, 500)
-		return
-	}
 
 	let data = survey.data
 
