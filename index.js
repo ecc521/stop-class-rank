@@ -159,20 +159,6 @@ let json = {
 
 		{
 			type: "html",
-			name: "genericInfo",
-			html: `Check your WCPSS Board Member <a target="_blank" href="https://www.wcpss.net/Page/5472">here</a>. We recommend contacting your board member and the chair. <br>Green Level is District 8, Panther Creek is District 7, and Green Hope is District 9`
-		},
-
-		{
-			name: "contact",
-			type: "dropdown",
-			title: "Who would you like to contact? ",
-			isRequired: true,
-			choices: Object.keys(contacts).map((contactEmail) => {return {text: `${contacts[contactEmail].name} - ${contacts[contactEmail].title}` , value: contactEmail}}),
-			defaultValue: defaultContact,
-		},
-		{
-			type: "html",
 			name: "subjectMessage",
 			html: `Customizing your message title is recommended - feel free to do this now, using the "Other" option, or before sending. `
 		},
@@ -183,6 +169,24 @@ let json = {
 			hasOther: true,
 			choices: subjects,
 			defaultValue: defaultSubject,
+		},
+		{
+			type: "html",
+			name: "dynamicInfoBoardMeeting",
+			html: ``
+		},
+		{
+			type: "html",
+			name: "genericInfo",
+			html: `Check your WCPSS Board Member <a target="_blank" href="https://www.wcpss.net/Page/5472">here</a>. We recommend contacting your board member and the chair. <br>Green Level is District 8, Panther Creek is District 7, and Green Hope is District 9`
+		},
+		{
+			name: "contact",
+			type: "dropdown",
+			title: "Who would you like to contact? ",
+			isRequired: true,
+			choices: Object.keys(contacts).map((contactEmail) => {return {text: `${contacts[contactEmail].name} - ${contacts[contactEmail].title}` , value: contactEmail}}),
+			defaultValue: defaultContact,
 		},
 		{
 			type: "html",
@@ -269,6 +273,7 @@ function updateSurveyMessage() {
 	editor.value = generateMessage()
 
 	survey.getQuestionByName("dynamicInfo").html = `<div id="dynamicContainer"></div>`
+	survey.getQuestionByName("dynamicInfoBoardMeeting").html = `<div id="dynamicContainerBoardMeeting"></div>`
 	survey.render()
 
 	let container = document.getElementById("dynamicContainer")
@@ -281,11 +286,12 @@ function updateSurveyMessage() {
 	let emailContactName = contacts[emailContact].name
 	let subject = (data.subject !== "other") ? data.subject : data["subject-Comment"]
 
+	let dynamicContainerBoardMeeting = document.getElementById("dynamicContainerBoardMeeting")
 	let commentBody = generateMessage("comment").split("<br>").join("\n").trim()
 	let publicCommentURL = `https://docs.google.com/forms/d/e/1FAIpQLSfIYvTEDN44sultYUofewUqxm3VRwqEh9uD2jjzQ7Fap-pIJA/viewform?ifq&entry.1148243391=${encodeURIComponent(data.name)}&entry.1879963615=${encodeURIComponent(subject)}&entry.211319492=${encodeURIComponent(commentBody)}`
 	let publicCommentStopDate = new Date("12:00 3/15/2022")
 	if (Date.now() < publicCommentStopDate) {
-		container.innerHTML += `<p>WCPSS has a Board Meeting on ${(publicCommentStopDate.getMonth() + 1)}/${publicCommentStopDate.getDate()}/${publicCommentStopDate.getFullYear()}. <a target="_blank" href="${publicCommentURL}">Create Board Meeting Comment</a> (Opens in New Tab Most)</p>`
+		dynamicContainerBoardMeeting.innerHTML = `<p style="font-size: 1.5em;font-weight:bold;background: lightyellow;">WCPSS has a Board Meeting on ${(publicCommentStopDate.getMonth() + 1)}/${publicCommentStopDate.getDate()}/${publicCommentStopDate.getFullYear()}. <a target="_blank" href="${publicCommentURL}">Create Board Meeting Comment</a> (Opens in New Tab Most)</p>`
 	}
 
 	container.innerHTML += `<p>Ready to Send? <a href=${generateMailto({
