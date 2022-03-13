@@ -263,12 +263,12 @@ function updateSurveyMessage() {
 	let emailContactName = contacts[emailContact].name
 	let subject = subjects[2] //TODO: Randomize. Need to dynamicize too.
 
-	container.innerHTML = `<p>Ready to Send? Click the link below to open this email in your default email app! </p><p><a href=${generateMailto({
+	container.innerHTML = `<p>Ready to Send? <a href=${generateMailto({
 		toField: emailContact,
 		ccField: [],
 		subject,
 		body,
-	})}>Compose Email to ${emailContactName}</a> (Works on Most Devices)</p></p>If the compose link above fails, just click "Copy Email" below, and email <a href="mailto:${emailContact}">${emailContact}</a></p>`
+	})}>Open this email to ${emailContactName} in default mail app!</a> (Works on Most Devices)</p>If the compose link above fails, just click "Copy Email", and email <a href="mailto:${emailContact}">${emailContact}</a> `
 
 	let copyButton = document.createElement("button")
 	copyButton.innerHTML = "Copy Email"
