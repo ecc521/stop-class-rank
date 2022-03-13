@@ -171,7 +171,7 @@ let json = {
 		{
             type: "editor",
             name: "editor",
-            title: "Output Message"
+            title: "Custom Template (Auto-Generated)"
         },
 	]
 };
@@ -268,10 +268,10 @@ function updateSurveyMessage() {
 		ccField: [],
 		subject,
 		body,
-	})}>Open this email to ${emailContactName} in default mail app!</a> (Works on Most Devices)</p>If the compose link above fails, just click "Copy Email", and email <a href="mailto:${emailContact}">${emailContact}</a> `
+	})}>Open custom template email to ${emailContactName} in default mail app!</a> (Works on Most Devices)</p>If the compose link above fails, just click "Copy Custom Template", and email <a href="mailto:${emailContact}">${emailContact}</a> `
 
 	let copyButton = document.createElement("button")
-	copyButton.innerHTML = "Copy Email"
+	copyButton.innerHTML = "Copy Custom Template"
 	copyButton.addEventListener("click", function() {
 		copyStringToClipboard(body)
 	})
