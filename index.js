@@ -150,7 +150,7 @@ let json = {
 		{
 			type: "html",
 			name: "genericInfo",
-			html: `Check your WCPSS Board Member <a target="_blank" href="https://www.wcpss.net/Page/5472">here</a>. We recommend contacting your board member, and copying the chair. <br>Green Level is District 8, Panther Creek is District 7, and Green Hope is District 9`
+			html: `Check your WCPSS Board Member <a target="_blank" href="https://www.wcpss.net/Page/5472">here</a>. We recommend contacting your board member and the chair. <br>Green Level is District 8, Panther Creek is District 7, and Green Hope is District 9`
 		},
 
 		{
