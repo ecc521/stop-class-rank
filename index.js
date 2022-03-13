@@ -1,8 +1,28 @@
+const defaultContact = "lmahaffey@wcpss.net"
+
 const contacts = {
-	"lmahaffey@wcpss.net": "Ms. Lindsay Mahaffey, Chair WCPSS Board",
-	"cqmoore@wcpss.net": "Superintendent Moore, WCPSS",
-	"parents@stopclassrank.com": "Test Email",
+	"hscott@wcpss.net": {name: "Ms. Heather Scott", title: "WCPSS Board (District 1)", style: "WCPSS"},
+	"mjohnsonhostler@wcpss.net": {name: "Ms. Monika Johnson-Hostler", title: "WCPSS Board (District 2)", style: "WCPSS"},
+	"rcash@wcpss.net": {name: "Ms. Roxie Cash", title: "WCPSS Board (District 3)", style: "WCPSS"},
+	//District 4 Vacant
+	"jmartin4@wcpss.net": {name: "Dr. Jim Martin", title: "WCPSS Board (District 5)", style: "WCPSS"},
+	"ckushner@wcpss.net": {name: "Mrs. Christine Kushner", title: "WCPSS Board (District 6)", style: "WCPSS"},
+	"jheagarty@wcpss.net": {name: "Mr. Chris Heagarty", title: "WCPSS Board Vice-Chair (District 7)", style: "WCPSS"},
+	"lmahaffey@wcpss.net": {name: "Ms. Lindsay Mahaffey", title: "WCPSS Board Chair (District 8)", style: "WCPSS"},
+	"kcarter3@wcpss.net": {name: "Ms. Karen Carter", title: "WCPSS Board (District 9)", style: "WCPSS"},
+
+	"cqmoore@wcpss.net": {name: "Ms. Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
+
+	"amy.white@dpi.nc.gov": {name: "Ms. Amy White", title: "North Carolina Board of Education", style: "NC"},
+	"Catherine.Truitt@dpi.nc.gov": {name: "Ms. Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
 }
+
+const subjects = [
+	"Class Rank Removal for $class",
+	"$class and Class Rank",
+	"Concerns about Ranking Students",
+	"Eliminate Class Rank From Transcripts",
+]
 
 const studentClassOptions = ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029"]
 const personOptions = ["Parent", "Staff Member", "Student"]
@@ -128,6 +148,27 @@ let json = {
 		},
 
 		{
+			type: "html",
+			name: "genericInfo",
+			html: `Check your WCPSS Board Member <a target="_blank" href="https://www.wcpss.net/Page/5472">here</a>. We recommend contacting your board member, and copying the chair. <br>Green Level is District 8, Panther Creek is District 7, and Green Hope is District 9`
+		},
+
+		{
+			name: "contact",
+			type: "dropdown",
+			title: "Who would you like to contact? ",
+			isRequired: true,
+			choices: Object.keys(contacts).map((contactEmail) => {return {text: `${contacts[contactEmail].name} - ${contacts[contactEmail].title}` , value: contactEmail}}),
+			defaultValue: defaultContact,
+		},
+
+		{
+			type: "html",
+			name: "dynamicInfo",
+			html: ``
+		},
+
+		{
             type: "editor",
             name: "editor",
             title: "Output Message"
@@ -135,9 +176,6 @@ let json = {
 	]
 };
 
-
-
-//Did your mid-year class rank surprise you
 
 Survey.StylesManager.applyTheme("modern");
 
@@ -188,10 +226,55 @@ ReactDOM.render(
 	React.createElement(SurveyReact.Survey, {model: survey})
 	, document.getElementById("surveyElement"));
 
+function copyStringToClipboard(str) {
+	// Create new element
+	var el = document.createElement('textarea');
+	// Set value (string to be copied)
+	el.value = str;
+	// Set non-editable to avoid focus and move outside of view
+	el.setAttribute('readonly', '');
+	el.style = {position: 'absolute', left: '-9999px'};
+	document.body.appendChild(el);
+	// Select text inside element
+	el.select();
+	// Copy text to clipboard
+	document.execCommand('copy');
+	// Remove temporary element
+	document.body.removeChild(el);
+}
 
 function updateSurveyMessage() {
 	let editor = survey.getQuestionByName("editor")
 	editor.value = generateMessage()
+
+	survey.getQuestionByName("dynamicInfo").html = `<div id="dynamicContainer"></div>`
+	let container = document.getElementById("dynamicContainer")
+
+	if (!container) {
+		setTimeout(updateSurveyMessage, 500)
+		return
+	}
+
+	let data = survey.data
+
+	let body = data.editor.split("<br>").join("\n")
+	let emailContact = data.contact
+	let emailContactName = contacts[emailContact].name
+	let subject = subjects[2] //TODO: Randomize. Need to dynamicize too.
+
+	container.innerHTML = `<p>Ready to Send? Click the link below to open this email in your default email app! </p><p><a href=${generateMailto({
+		toField: emailContact,
+		ccField: [],
+		subject,
+		body,
+	})}>Compose Email to ${emailContactName}</a> (Works on Most Devices)</p></p>If the compose link above fails, just click "Copy Email" below, and email <a href="mailto:${emailContact}">${emailContact}</a></p>`
+
+	let copyButton = document.createElement("button")
+	copyButton.innerHTML = "Copy Email"
+	copyButton.addEventListener("click", function() {
+		copyStringToClipboard(body)
+	})
+	container.appendChild(copyButton)
 }
 
 function generateMessage() {
@@ -204,7 +287,8 @@ function generateMessage() {
 
 	let school = data.school
 
-	let message = `My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
+	let message = `Dear ${contacts[data.contact].name},`
+	message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 
 	let children = survey.data.children || []
 	let childTerm = children.length > 1 ? "children" : "child"
@@ -314,12 +398,11 @@ function generateMessage() {
 
 	message += `I appreciate the time and effort the school board puts into providing the best possible education for our children, and look forward to hearing from you on this matter. If you would like to discuss this request further, please contact me. `
 
-	message +=`<br><br>Thank you for your time, service, and consideration.
-<br><br>Sincerely,
-<br>${name}
-<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}
-<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}
-`
+	message +=`<br><br>Thank you for your time, service, and consideration.`
+	message += `<br><br>Sincerely,`
+	message += `<br>${name}`
+	message += `<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}`
+	message += `<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}`
 
 	return message
 }
@@ -327,7 +410,7 @@ function generateMessage() {
 
 function generateMailto({
 	toField,
-	ccField,
+	ccField = [],
 	subject,
 	body,
 }) {
