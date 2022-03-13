@@ -291,7 +291,7 @@ function updateSurveyMessage() {
 	let publicCommentURL = `https://docs.google.com/forms/d/e/1FAIpQLSfIYvTEDN44sultYUofewUqxm3VRwqEh9uD2jjzQ7Fap-pIJA/viewform?ifq&entry.1148243391=${encodeURIComponent(data.name)}&entry.1879963615=${encodeURIComponent(subject)}&entry.211319492=${encodeURIComponent(commentBody)}`
 	let publicCommentStopDate = new Date("12:00 3/15/2022")
 	if (Date.now() < publicCommentStopDate) {
-		dynamicContainerBoardMeeting.innerHTML = `<p style="font-size: 1.5em;font-weight:bold;background: lightyellow;">WCPSS has a Board Meeting on ${(publicCommentStopDate.getMonth() + 1)}/${publicCommentStopDate.getDate()}/${publicCommentStopDate.getFullYear()}. <a target="_blank" href="${publicCommentURL}">Create Board Meeting Comment</a> (Opens in New Tab Most)</p>`
+		dynamicContainerBoardMeeting.innerHTML = `<p style="font-size: 1.5em;font-weight:bold;background: lightyellow;">WCPSS has a Board Meeting on ${(publicCommentStopDate.getMonth() + 1)}/${publicCommentStopDate.getDate()}/${publicCommentStopDate.getFullYear()}. <a target="_blank" href="${publicCommentURL}">Create Board Meeting Comment</a> (Opens in New Tab)</p>`
 	}
 
 	container.innerHTML += `<p>Ready to Send? <a href=${generateMailto({
