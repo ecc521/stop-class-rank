@@ -325,6 +325,9 @@ function generateMessage(style = "email") {
 		message += `Dear ${contacts[data.contact]?.name},`
 		message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 	}
+	else {
+		message += "As a "
+	}
 
 	let children = survey.data.children || []
 	let childTerm = children.length > 1 ? "children" : "child"
@@ -351,37 +354,42 @@ function generateMessage(style = "email") {
 		"$theirOrMy": typeOfPerson === "parent" ? "their" : "my",
 	}
 
-	if (style === "email") {
-		if (typeOfPerson === "parent") {
-			message += `parent with `
-			for (let i=0;i<children.length;i++) {
-				let child = children[i]
-				message += ` a ${classTranslations[child.class]} at ${child.school}`
-				updateForClass(child.class)
-				updateForSchool(child.school)
+	if (typeOfPerson === "parent") {
+		message += `parent with `
+		for (let i=0;i<children.length;i++) {
+			let child = children[i]
+			message += ` a ${classTranslations[child.class]} at ${child.school}`
+			updateForClass(child.class)
+			updateForSchool(child.school)
 
-				if (i != children.length - 1 && children.length >= 2) {
-					if (children.length > 2) {
-						message += ", "
-					}
-					else if (children.length === 2) {
-						message += " "
-					}
+			if (i != children.length - 1 && children.length >= 2) {
+				if (children.length > 2) {
+					message += ", "
 				}
-				if (i == children.length - 2 && children.length > 1) {
-					message += "and "
+				else if (children.length === 2) {
+					message += " "
 				}
 			}
-			message += ". "
+			if (i == children.length - 2 && children.length > 1) {
+				message += "and "
+			}
 		}
-		else if (typeOfPerson === "student") {
-			message += `${classTranslations[data.class]} at ${school}. `
-			updateForClass(data.class)
-			updateForSchool(school)
-		}
-		else {
-			message += `${typeOfPerson} at ${school}. `
-		}
+	}
+	else if (typeOfPerson === "student") {
+		message += `${classTranslations[data.class]} at ${school}`
+		updateForClass(data.class)
+		updateForSchool(school)
+	}
+	else {
+		message += `${typeOfPerson} at ${school}`
+	}
+
+	if (style === "email") {
+		message += ". "
+		message += `<br><br>`
+	}
+	else {
+		message += ", "
 	}
 
 	//Flags:
@@ -390,7 +398,6 @@ function generateMessage(style = "email") {
 	let meOrMy = typeOfPerson === "parent" ? `my ${childTerm}&#39;s` : "me"
 	let themOrUs = typeOfPerson === "student" ? "us":"them"
 
-	message += `<br><br>`
 	message += `I am requesting that WCPSS eliminate class rank from transcripts. `
 	message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that WCPSS provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
 
