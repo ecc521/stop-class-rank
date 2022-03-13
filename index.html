@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head></head>
+	<head>
+		<link rel="preload" href="https://unpkg.com/jquery" as="script" importance="high">
+
+		<link rel="preload" href="https://unpkg.com/react@17.0.1/umd/react.production.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/@babel/standalone@7.2.5/babel.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/survey-core@1.9.18/survey.core.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/survey-core@1.9.18/survey.i18n.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/survey-react-ui@1.9.18/survey-react-ui.min.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/survey-core@1.9.18/modern.min.css" as="style" importance="high">
+
+		<link rel="preload" href="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js" as="script" importance="high">
+		<link rel="preload" href="https://unpkg.com/surveyjs-widgets@1.9.18/surveyjs-widgets.min.js" as="script" importance="high">
+
+		<link rel="preload" href="index.js" as="script" importance="high">
+		<link rel="preload" href="index.css" as="style" importance="high">
+	</head>
 	<body>
 		<div id="surveyElement" style="display:inline-block;width:100%;"></div>
 		<div id="surveyResult"></div>
@@ -18,7 +34,7 @@
 		<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 		<script src="https://unpkg.com/surveyjs-widgets@1.9.18/surveyjs-widgets.min.js"></script>
 
-		<!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
 		<script src="index.js"></script>
+		<link rel="stylesheet" type="text/css" href="index.css">
 	</body>
 </html>
