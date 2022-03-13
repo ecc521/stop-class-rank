@@ -220,7 +220,7 @@ try {
 catch (e) {console.error(e)}
 //End auto-save survey
 
-updateSurveyMessage()
+setTimeout(updateSurveyMessage, 0) //Use setTimeout so that any errors don't cause a crash.
 
 ReactDOM.render(
 	React.createElement(SurveyReact.Survey, {model: survey})
