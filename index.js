@@ -251,6 +251,7 @@ function updateSurveyMessage() {
 	let container = document.getElementById("dynamicContainer")
 
 	if (!container) {
+		//Must not have rendered yet. Try again shortly. 
 		setTimeout(updateSurveyMessage, 500)
 		return
 	}
