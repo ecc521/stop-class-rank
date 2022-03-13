@@ -288,7 +288,7 @@ function generateMessage() {
 
 	let school = data.school
 
-	let message = `Dear ${contacts[data.contact].name},`
+	let message = `Dear ${contacts[data.contact]?.name},`
 	message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 
 	let children = survey.data.children || []
