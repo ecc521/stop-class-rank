@@ -18,11 +18,21 @@ const contacts = {
 }
 
 const subjects = [
-	"Class Rank Removal for $class",
-	"$class and Class Rank",
-	"Concerns about Ranking Students",
-	"Eliminate Class Rank From Transcripts",
+	"An EXACT numeric rank - during a pandemic?",
+	"Pandemic relief from Class Rank",
+	{value: "Help our kids compete with other states - stop class rank", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
+	{value: "Help us compete with students from other states - stop class rank", visibleIf: "{personType} notempty  and {personType} == 'Student'"},
+	{value: "Class rank is harming student opportunities", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
+	{value: "Class rank is harming our opportunities", visibleIf: "{personType} notempty  and {personType} == 'Student'"},
+	{value: "Class rank is costing us scholarship money", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
+	{value: "Class rank is costing me scholarship money", visibleIf: "{personType} notempty  and {personType} == 'Student'"},
+	"Latin Honors is a failure - Remove class rank",
+	"Remove Class Rank",
+	"Latin Honors was the right idea - now eliminate class rank too",
 ]
+
+let defaultSubject = subjects[Math.floor(Math.random() * subjects.length)]
+if (defaultSubject?.value) {defaultSubject = defaultSubject.value}
 
 const studentClassOptions = ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029"]
 const personOptions = ["Parent", "Staff Member", "Student"]
@@ -163,6 +173,19 @@ let json = {
 		},
 		{
 			type: "html",
+			name: "subjectMessage",
+			html: `Customizing your message title is recommended - feel free to do this now, using the "Other" option, or before sending. `
+		},
+		{
+			name: "subject",
+			type: "dropdown",
+			title: "Pick a message title: ",
+			hasOther: true,
+			choices: subjects,
+			defaultValue: defaultSubject,
+		},
+		{
+			type: "html",
 			name: "dynamicInfo",
 			html: ``
 		},
@@ -247,17 +270,25 @@ function updateSurveyMessage() {
 
 	survey.getQuestionByName("dynamicInfo").html = `<div id="dynamicContainer"></div>`
 	survey.render()
-	
+
 	let container = document.getElementById("dynamicContainer")
+	container.innerHTML = ""
 
 	let data = survey.data
 
-	let body = data.editor.split("<br>").join("\n")
+	let body = data.editor.split("<br>").join("\n").trim()
 	let emailContact = data.contact
 	let emailContactName = contacts[emailContact].name
-	let subject = subjects[2] //TODO: Randomize. Need to dynamicize too.
+	let subject = (data.subject !== "other") ? data.subject : data["subject-Comment"]
 
-	container.innerHTML = `<p>Ready to Send? <a href=${generateMailto({
+	let commentBody = generateMessage("comment").split("<br>").join("\n").trim()
+	let publicCommentURL = `https://docs.google.com/forms/d/e/1FAIpQLSfIYvTEDN44sultYUofewUqxm3VRwqEh9uD2jjzQ7Fap-pIJA/viewform?ifq&entry.1148243391=${encodeURIComponent(data.name)}&entry.1879963615=${encodeURIComponent(subject)}&entry.211319492=${encodeURIComponent(commentBody)}`
+	let publicCommentStopDate = new Date("12:00 3/15/2022")
+	if (Date.now() < publicCommentStopDate) {
+		container.innerHTML += `<p>WCPSS has a Board Meeting on ${(publicCommentStopDate.getMonth() + 1)}/${publicCommentStopDate.getDate()}/${publicCommentStopDate.getFullYear()}. <a target="_blank" href="${publicCommentURL}">Create Board Meeting Comment</a> (Opens in New Tab Most)</p>`
+	}
+
+	container.innerHTML += `<p>Ready to Send? <a href=${generateMailto({
 		toField: emailContact,
 		ccField: [],
 		subject,
@@ -272,7 +303,7 @@ function updateSurveyMessage() {
 	container.appendChild(copyButton)
 }
 
-function generateMessage() {
+function generateMessage(style = "email") {
 	let data = survey.data
 
 	let name = data.name
@@ -282,8 +313,12 @@ function generateMessage() {
 
 	let school = data.school
 
-	let message = `Dear ${contacts[data.contact]?.name},`
-	message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
+	let message = ""
+
+	if (style === "email") {
+		message += `Dear ${contacts[data.contact]?.name},`
+		message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
+	}
 
 	let children = survey.data.children || []
 	let childTerm = children.length > 1 ? "children" : "child"
@@ -310,37 +345,38 @@ function generateMessage() {
 		"$theirOrMy": typeOfPerson === "parent" ? "their" : "my",
 	}
 
-	if (typeOfPerson === "parent") {
-		message += `parent with `
-		for (let i=0;i<children.length;i++) {
-			let child = children[i]
-			message += ` a ${classTranslations[child.class]} at ${child.school}`
-			updateForClass(child.class)
-			updateForSchool(child.school)
+	if (style === "email") {
+		if (typeOfPerson === "parent") {
+			message += `parent with `
+			for (let i=0;i<children.length;i++) {
+				let child = children[i]
+				message += ` a ${classTranslations[child.class]} at ${child.school}`
+				updateForClass(child.class)
+				updateForSchool(child.school)
 
-			if (i != children.length - 1 && children.length >= 2) {
-				if (children.length > 2) {
-					message += ", "
+				if (i != children.length - 1 && children.length >= 2) {
+					if (children.length > 2) {
+						message += ", "
+					}
+					else if (children.length === 2) {
+						message += " "
+					}
 				}
-				else if (children.length === 2) {
-					message += " "
+				if (i == children.length - 2 && children.length > 1) {
+					message += "and "
 				}
 			}
-			if (i == children.length - 2 && children.length > 1) {
-				message += "and "
-			}
+			message += ". "
 		}
-		message += ". "
+		else if (typeOfPerson === "student") {
+			message += `${classTranslations[data.class]} at ${school}. `
+			updateForClass(data.class)
+			updateForSchool(school)
+		}
+		else {
+			message += `${typeOfPerson} at ${school}. `
+		}
 	}
-	else if (typeOfPerson === "student") {
-		message += `${classTranslations[data.class]} at ${school}. `
-		updateForClass(data.class)
-		updateForSchool(school)
-	}
-	else {
-		message += `${typeOfPerson} at ${school}. `
-	}
-
 
 	//Flags:
 	// mostRecentClass
@@ -381,7 +417,7 @@ function generateMessage() {
 		}
 	}
 
-	if (isKnownOvercompetitiveSchool) {
+	if (isKnownOvercompetitiveSchool && style === "email") {
 		message += `<br><br>Our WCPSS public high schools - particularly Green Level, Green Hope, Panther Creek, and Enloe - are highly competitive. Far more than half the students are on path to be recognized with WCPSS Latin Honors Summa Cum Laude or Magna Cum Laude recognition, and yet their college applications will be judged on numeric ranks in the bottom 50% rather than their WCPSS Latin Honors recognition. At least 25% of the students at every one of these schools are identified as AIG, far too many for an accurate class ranking. 25+% will never fit in the Top 10%. There are far more than ten "Top 10" quality students. There are too many exceptional students to provide a 1 to n ranking. `
 	}
 
@@ -389,15 +425,17 @@ function generateMessage() {
 
 	message += `Class Rank is harmful and ${replacements["$IOrWe"]} request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
 
-	message += `<br><br>`
+	if (style === "email") {
+		message += `<br><br>`
 
-	message += `I appreciate the time and effort the school board puts into providing the best possible education for our children, and look forward to hearing from you on this matter. If you would like to discuss this request further, please contact me. `
+		message += `I appreciate the time and effort the school board puts into providing the best possible education for our children, and look forward to hearing from you on this matter. If you would like to discuss this request further, please contact me. `
 
-	message +=`<br><br>Thank you for your time, service, and consideration.`
-	message += `<br><br>Sincerely,`
-	message += `<br>${name}`
-	message += `<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}`
-	message += `<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}`
+		message +=`<br><br>Thank you for your time, service, and consideration.`
+		message += `<br><br>Sincerely,`
+		message += `<br>${name}`
+		message += `<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}`
+		message += `<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}`
+	}
 
 	return message
 }
