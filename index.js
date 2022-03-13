@@ -287,6 +287,8 @@ function updateSurveyMessage() {
 	let emailContactName = contacts[emailContact].name
 	let subject = (data.subject !== "other") ? data.subject : data["subject-Comment"]
 
+	//https://www.wcpss.net/Page/3727
+	//Scroll down to see details about public comment periods. 
 	let dynamicContainerBoardMeeting = document.getElementById("dynamicContainerBoardMeeting")
 	let commentBody = generateMessage("comment").split("<br>").join("\n").trim()
 	let publicCommentURL = `https://docs.google.com/forms/d/e/1FAIpQLSfIYvTEDN44sultYUofewUqxm3VRwqEh9uD2jjzQ7Fap-pIJA/viewform?ifq&entry.1148243391=${encodeURIComponent(data.name)}&entry.1879963615=${encodeURIComponent(subject)}&entry.211319492=${encodeURIComponent(commentBody)}`
