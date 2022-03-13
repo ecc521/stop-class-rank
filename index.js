@@ -90,7 +90,7 @@ let json = {
 		{
 			name: "address",
 			type: "text",
-			title: "I reside at",
+			title: "I reside at (recommended)",
 			placeHolder: "Please enter your address (optional)...",
 			autoComplete: "address"
 		},
@@ -251,7 +251,7 @@ function updateSurveyMessage() {
 	let container = document.getElementById("dynamicContainer")
 
 	if (!container) {
-		//Must not have rendered yet. Try again shortly. 
+		//Must not have rendered yet. Try again shortly.
 		setTimeout(updateSurveyMessage, 500)
 		return
 	}
