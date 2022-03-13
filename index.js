@@ -321,8 +321,10 @@ function generateMessage(style = "email") {
 
 	let message = ""
 
+	let contact = contacts[data.contact]
+
 	if (style === "email") {
-		message += `Dear ${contacts[data.contact]?.name},`
+		message += `Dear ${contact?.name},`
 		message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 	}
 	else {
@@ -397,22 +399,45 @@ function generateMessage(style = "email") {
 
 	let meOrMy = typeOfPerson === "parent" ? `my ${childTerm}&#39;s` : "me"
 	let themOrUs = typeOfPerson === "student" ? "us":"them"
+	let ourOrTheir = typeOfPerson === "student" ? "our":"their"
+	let weOrThese = typeOfPerson === "student" ? "We":"These"
 
-	message += `I am requesting that WCPSS eliminate class rank from transcripts. `
-	message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that WCPSS provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
+	if (contact?.style === "WCPSS") {
+		message += `I am requesting that WCPSS eliminate class rank from transcripts. `
+		message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that WCPSS provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
 
-	message += `<br><br>`
+		message += `<br><br>`
 
-	message += `WCPSS runs some of the best and most competitive schools in the country. `
-	message += `Removing class rank will allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
-	message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not weighted GPA. `
-	message += `Additionally, this action is entirely in the hands of WCPSS - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and WCPSS's goals cannot be achieved as long as a 1 to n class rank remains. `
+		message += `WCPSS runs some of the best and most competitive schools in the country. `
+		message += `Removing class rank will allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
+		message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not weighted GPA. `
+		message += `Additionally, this action is entirely in the hands of WCPSS - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and WCPSS's goals cannot be achieved as long as a 1 to n class rank remains. `
 
-	message += `<br><br>`
+		message += `<br><br>`
 
-	message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. `
-	message += `The class rank for WCPSS is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
-	message += `Class Rank places ${themOrUs} at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
+		message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. `
+		message += `The class rank for WCPSS is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
+		message += `Class Rank places ${themOrUs} at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
+	}
+	else if (contact?.style === "NC") {
+		message += `I am requesting that the North Carolina School Board explicitly authorize local school boards to report a Latin Honors based class rank, or eliminate class rank from NC transcripts. In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that North Carolina School Board policy be amended to provide students the option to withhold class rank or report Latin Honors based class rank for out of state colleges, scholarship programs, and private universities.`
+
+		message += `<br><br>`
+
+		message += `As the North Central representative to the State Board of Education, your District encompasses some of the most competitive schools in both North Carolina and the United States as a whole. ${weOrThese} are the students who are most seriously and directly harmed by NC class rank policy.  `
+
+		message += `<br><br>`
+
+		message += `Until the NC School Board updates the class rank policy, the Latin Honors policies of local school boards, such as WCPSS, will never successfully achieve their goals of reducing competition and allowing students to pick courses for interests and not weighted GPA. Eliminating this policy will also mitigate the impacts of the pandemic on NC students' college admissions and scholarship opportunities and allow ${themOrUs} to compete fairly with students from other states who are not encumbered by class rank. `
+
+		message += `<br><br>`
+
+		message += `The requirement for class rank stems from GS 116-11(10a) and is therefore scoped by GS116-143.1(a)(3) to only apply to UNC system schools. The State Board has the authority to redefine GRAD-009 as necessary to mitigate the impacts of the pandemic, such as by redefining class rank to utilize a Latin Honors system. Additionally, there is no law requiring the State Board of Education to print ANY FORM OF CLASS RANK on transcripts sent out of state or to private universities. `
+
+		message += `<br><br>`
+
+		message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. The GRAD009 Emergency Addition approved by the NC State Board of Education allowed students to manipulate their weighted GPAs, while making no provisions for class rank. The class rank at highly competitive high schools in your district is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. Class Rank places NC students at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
+	}
 
 	if (data.reasons?.length && typeOfPerson != "staff member") {
 		message += `<br><br>Producing a rank for ${typeOfPerson === "parent" ? `my ${childTerm}`: "me"} is unfair because: `
