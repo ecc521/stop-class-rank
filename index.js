@@ -247,6 +247,7 @@ function updateSurveyMessage() {
 
 	survey.getQuestionByName("dynamicInfo").html = `<div id="dynamicContainer"></div>`
 	survey.render()
+	
 	let container = document.getElementById("dynamicContainer")
 
 	let data = survey.data
