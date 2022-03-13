@@ -308,7 +308,7 @@ function generateMessage() {
 
 	message += `<br><br>`
 
-	message += `Class Rank is harmful and we request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
+	message += `Class Rank is harmful and ${replacements["$IOrWe"]} request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
 
 	message += `<br><br>`
 
@@ -317,7 +317,7 @@ function generateMessage() {
 	message +=`<br><br>Thank you for your time, service, and consideration.
 <br><br>Sincerely,
 <br>${name}
-<br>${data.personType} ${typeOfPerson === "student" ? school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}
+<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}
 <br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}
 `
 
