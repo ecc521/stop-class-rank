@@ -2,17 +2,34 @@ const defaultContact = "lmahaffey@wcpss.net"
 
 const contacts = {
 	//https://www.wcpss.net/Page/5472
-	"hscott@wcpss.net": {name: "Ms. Heather Scott", title: "WCPSS Board (District 1)", style: "WCPSS"},
-	"mjohnsonhostler@wcpss.net": {name: "Ms. Monika Johnson-Hostler", title: "WCPSS Board (District 2)", style: "WCPSS"},
-	"rcash@wcpss.net": {name: "Ms. Roxie Cash", title: "WCPSS Board (District 3)", style: "WCPSS"},
-	//District 4 Vacant
-	"jmartin4@wcpss.net": {name: "Dr. Jim Martin", title: "WCPSS Board (District 5)", style: "WCPSS"},
-	"ckushner@wcpss.net": {name: "Mrs. Christine Kushner", title: "WCPSS Board (District 6)", style: "WCPSS"},
-	"jheagarty@wcpss.net": {name: "Vice-Chairman Chris Heagarty", title: "WCPSS Board (District 7)", style: "WCPSS"},
-	"lmahaffey@wcpss.net": {name: "Chairwoman Lindsay Mahaffey", title: "WCPSS Board (District 8)", style: "WCPSS"},
-	"kcarter3@wcpss.net": {name: "Ms. Karen Carter", title: "WCPSS Board (District 9)", style: "WCPSS"},
 
-	"cqmoore@wcpss.net": {name: "Superintendent Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
+	"lmahaffey@wcpss.net": {
+		cc: [
+			"hscott@wcpss.net",
+			"mjohnsonhostler@wcpss.net",
+			"rcash@wcpss.net",
+			"twaters2@wcpss.net",
+			"jmartin4@wcpss.net",
+			"ckushner@wcpss.net",
+			"jheagarty@wcpss.net",
+			"kcarter3@wcpss.net",
+			"cqmoore@wcpss.net",
+		],
+		title: "Wake County School Board",
+		style: "WCPSS"
+	},
+
+	// "hscott@wcpss.net": {name: "Ms. Heather Scott", title: "WCPSS Board (District 1)", style: "WCPSS"},
+	// "mjohnsonhostler@wcpss.net": {name: "Ms. Monika Johnson-Hostler", title: "WCPSS Board (District 2)", style: "WCPSS"},
+	// "rcash@wcpss.net": {name: "Ms. Roxie Cash", title: "WCPSS Board (District 3)", style: "WCPSS"},
+	// "twaters2@wcpss.net": {name: "Ms. Tara Waters", title: "WCPSS Board (District 4)", style: "WCPSS"},
+	// "jmartin4@wcpss.net": {name: "Dr. Jim Martin", title: "WCPSS Board (District 5)", style: "WCPSS"},
+	// "ckushner@wcpss.net": {name: "Mrs. Christine Kushner", title: "WCPSS Board (District 6)", style: "WCPSS"},
+	// "jheagarty@wcpss.net": {name: "Vice-Chairman Chris Heagarty", title: "WCPSS Board (District 7)", style: "WCPSS"},
+	// "lmahaffey@wcpss.net": {name: "Chairwoman Lindsay Mahaffey", title: "WCPSS Board (District 8)", style: "WCPSS"},
+	// "kcarter3@wcpss.net": {name: "Ms. Karen Carter", title: "WCPSS Board (District 9)", style: "WCPSS"},
+
+	//"cqmoore@wcpss.net": {name: "Superintendent Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
 
 	"amy.white@dpi.nc.gov": {name: "Ms. Amy White", title: "North Carolina Board of Education", style: "NC"},
 	"Catherine.Truitt@dpi.nc.gov": {name: "Superintendent Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
@@ -186,7 +203,14 @@ let json = {
 			type: "dropdown",
 			title: "Who would you like to contact? ",
 			isRequired: true,
-			choices: Object.keys(contacts).map((contactEmail) => {return {text: `${contacts[contactEmail].name} - ${contacts[contactEmail].title}` , value: contactEmail}}),
+			choices: Object.keys(contacts).map((contactEmail) => {
+				let contact = contacts[contactEmail]
+				let obj = {text: contact.title , value: contactEmail}
+				if (contact.name) {
+					text = `${contact.name} - ${contact.title}`
+				}
+				return obj
+			}),
 			defaultValue: defaultContact,
 		},
 		{
@@ -284,11 +308,12 @@ function updateSurveyMessage() {
 
 	let body = data.editor.split("<br>").join("\n").trim()
 	let emailContact = data.contact
-	let emailContactName = contacts[emailContact].name
+	let contact = contacts[emailContact]
+	let emailContactName = contact.name || contact.title
 	let subject = (data.subject !== "other") ? data.subject : data["subject-Comment"]
 
 	//https://www.wcpss.net/Page/3727
-	//Scroll down to see details about public comment periods. 
+	//Scroll down to see details about public comment periods.
 	let dynamicContainerBoardMeeting = document.getElementById("dynamicContainerBoardMeeting")
 	let commentBody = generateMessage("comment").split("<br>").join("\n").trim()
 	let publicCommentURL = `https://docs.google.com/forms/d/e/1FAIpQLSfIYvTEDN44sultYUofewUqxm3VRwqEh9uD2jjzQ7Fap-pIJA/viewform?ifq&entry.1148243391=${encodeURIComponent(data.name)}&entry.1879963615=${encodeURIComponent(subject)}&entry.211319492=${encodeURIComponent(commentBody)}`
@@ -299,7 +324,7 @@ function updateSurveyMessage() {
 
 	container.innerHTML += `<p>Ready to Send? <a href=${generateMailto({
 		toField: emailContact,
-		ccField: [],
+		ccField: contact.cc,
 		subject,
 		body,
 	})}>Open custom template email to ${emailContactName} in default mail app!</a> (Works on Most Devices)</p>If the compose link above fails, just click "Copy Custom Template", and email <a href="mailto:${emailContact}">${emailContact}</a> `
@@ -328,8 +353,12 @@ function generateMessage(style = "email") {
 
 	if (style === "email") {
 		//We'll cut out the first name from the email.
-		let contactIntroductionName = contact?.name?.split(" ")
-		contactIntroductionName = contactIntroductionName?.[0] + " " + contactIntroductionName?.[2]
+		let contactIntroductionName = contact?.title
+		if (contact.name) {
+			contactIntroductionName = contact?.name?.split(" ")
+			contactIntroductionName = contactIntroductionName?.[0] + " " + contactIntroductionName?.[2]
+		}
+
 		message += `Dear ${contactIntroductionName},`
 		message += `<br><br>My name is ${name} and I${address?` reside at ${address}. I `:""} am a `
 	}
