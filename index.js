@@ -56,6 +56,7 @@ const contacts = {
 const subjects = [
 	"An EXACT numeric rank - during a pandemic?",
 	"Pandemic relief from Class Rank",
+	"Remove Class Rank",
 	{value: "Help our kids compete with other states - stop class rank", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
 	{value: "Help us compete with students from other states - stop class rank", visibleIf: "{personType} notempty  and {personType} == 'Student'"},
 	{value: "Class rank is harming student opportunities", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
@@ -63,11 +64,12 @@ const subjects = [
 	{value: "Class rank is costing us scholarship money", visibleIf: "{personType} notempty  and {personType} != 'Student'"},
 	{value: "Class rank is costing me scholarship money", visibleIf: "{personType} notempty  and {personType} == 'Student'"},
 	"Latin Honors is a failure - Remove class rank",
-	"Remove Class Rank",
 	"Latin Honors was the right idea - now eliminate class rank too",
 ]
 
-let defaultSubject = subjects[Math.floor(Math.random() * subjects.length)]
+let filteredSubjects = subjects.slice(0, 3) //Only subjects that are applicable to both parents and students and all message styles. 
+
+let defaultSubject = filteredSubjects[Math.floor(Math.random() * filteredSubjects.length)]
 if (defaultSubject?.value) {defaultSubject = defaultSubject.value}
 
 const studentClassOptions = ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029"]
