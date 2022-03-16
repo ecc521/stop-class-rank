@@ -31,8 +31,26 @@ const contacts = {
 
 	//"cqmoore@wcpss.net": {name: "Superintendent Cathy Moore", title: "WCPSS Superintendent", style: "WCPSS"},
 
-	"amy.white@dpi.nc.gov": {name: "Ms. Amy White", title: "North Carolina Board of Education", style: "NC"},
-	"Catherine.Truitt@dpi.nc.gov": {name: "Superintendent Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
+	"amy.white@dpi.nc.gov": {
+		cc: [
+			//"mark.robinson@dpi.nc.gov", //LT Gov
+			//"dale.folwell@dpi.nc.gov", //Treasurer
+			"eric.davis@dpi.nc.gov",
+			"alan.duncan@dpi.nc.gov",
+			"olivia.oxendine@dpi.nc.gov",
+			"reginald.kenan@dpi.nc.gov",
+			"James.Ford@dpi.nc.gov",
+			"Jill.Camnitz@dpi.nc.gov",
+			"Donna.Tipton-Rogers@dpi.nc.gov",
+			"JWendell.Hall@dpi.nc.gov",
+			"catherine.truitt@dpi.nc.gov",
+		],
+		title: "North Carolina Board of Education",
+		style: "NC"
+	},
+
+	// "amy.white@dpi.nc.gov": {name: "Ms. Amy White", title: "North Carolina Board of Education", style: "NC"},
+	// "Catherine.Truitt@dpi.nc.gov": {name: "Superintendent Catherine Truitt", title: "North Carolina Superintendent", style: "NC"},
 }
 
 const subjects = [
