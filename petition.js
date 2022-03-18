@@ -97,6 +97,8 @@ function submitSurveyData() {
 
 	let dataFormURL = `https://docs.google.com/forms/d/e/1FAIpQLScZ7qtDBFzSwqGLUPwKjXw1N_H3UX--jDETenBSdR6RYKqALw/formResponse?entry.476670027=${encodedLogKey}&entry.131294692=${name}&entry.1336935614=${email}&submit=Submit`
 
-	fetch(logKeyURL, {mode: "no-cors"})
-	fetch(dataFormURL, {mode: "no-cors"})
+	navigator.sendBeacon(logKeyURL)
+	navigator.sendBeacon(dataFormURL)
+	// fetch(logKeyURL, {mode: "no-cors"})
+	// fetch(dataFormURL, {mode: "no-cors"})
 }
