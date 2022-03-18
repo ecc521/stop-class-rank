@@ -1,5 +1,3 @@
-const fullPetitionTextLink = ""
-
 let json = {
 	checkErrorsMode: "onValueChanged",
 	showQuestionNumbers: "off",
