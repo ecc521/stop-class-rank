@@ -14,7 +14,6 @@ html, body {
 
 .bigNumber {
 	margin: auto;
-	margin-top: 20px;
     width: 120px;
     line-height: 120px;
     border-radius: 50%;
@@ -29,6 +28,7 @@ html, body {
 }
 
 #socials {
+	padding-top: 1em;
 	text-align: center;
 }
 
@@ -50,4 +50,17 @@ html, body {
 
 li {
 	margin-bottom: 8px;
+}
+
+#petitionInfo {
+	padding-top: 20px;
+}
+
+.peopleHaveSigned {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+#socials, #petitionInfo {
+	background-color: #ddd;
 }
