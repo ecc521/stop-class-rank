@@ -38,14 +38,7 @@ html, body {
 
 #petitionText {
 	margin: 20px;
-	margin-top: 40px;
-}
-
-@media only screen and (min-width: 600px) {
-	#petitionText {
-		margin-right: 5%;
-		margin-left: 5%;
-	}
+	margin-top: 35px;
 }
 
 li {
@@ -53,6 +46,7 @@ li {
 }
 
 #petitionInfo {
+	margin-top: 5px;
 	padding-top: 20px;
 }
 
@@ -63,4 +57,11 @@ li {
 
 #socials, #petitionInfo {
 	background-color: #ddd;
+}
+
+@media only screen and (min-width: 600px) {
+	#petitionText, #petitionInfo, #socials {
+		margin-right: 5%;
+		margin-left: 5%;
+	}
 }
