@@ -2,6 +2,12 @@ html, body {
 	background-color: white;
 }
 
+.sv-completedpage {
+	height: initial;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
 .sv-body__page, .sv-body__footer {
 	margin-top: 0 !important; /*Override top padding on survey top and above footer (complete/sign button)*/
 }

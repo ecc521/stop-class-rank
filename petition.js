@@ -1,16 +1,9 @@
 let json = {
 	checkErrorsMode: "onValueChanged",
 	showQuestionNumbers: "off",
-	completedHtml: "You have signed the petition!",
+	completedHtml: "You signed the petition!",
 	completeText: "Sign Petition",
 	"elements": [
-		{
-			type: "html",
-			name: "genericInfo",
-			html: `
-			<h1 style="text-align: center;">Petition to Stop Class Rank</h1>
-			<p style="text-align: center;">Eliminate class rank from WCPSS transcripts with interim measures for the class of 2023. <a href="#petitionText">View Full Text</a>. For more information about class rank, please visit <a target="_blank" href="https://www.stopclassrank.com">stopclassrank.com</a>. `
-		},
 		{
 			name: "name",
 			type: "text",
@@ -79,7 +72,7 @@ getCurrentStats().then(function(stats) {
 	let petitionInfoDiv = document.getElementById("petitionInfo")
 
 	if (stats.userHasSigned) {
-		survey.getQuestionByName("genericInfo").html += `<p style="color: red; text-align: center;">Please sign this petition only once. Duplicate signatures will be removed. </p>`
+		document.getElementById("petitionSummaryInfo").innerHTML += `<p style="color: red; text-align: center;">Please sign this petition only once. Duplicate signatures will be removed. </p>`
 	}
 
 	let bigNumber = document.createElement("div")
