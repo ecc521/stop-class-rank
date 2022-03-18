@@ -22,7 +22,7 @@ let json = {
 		{
 			name: "email",
 			type: "text",
-			title: "Email (Not Disclosed): ",
+			title: "Email: ",
 			placeHolder: "Please enter your email...",
 			isRequired: true,
 			inputType: "email",
