@@ -68,22 +68,21 @@ async function getCurrentStats() {
 	return {usersSigned, userHasSigned}
 }
 
-getCurrentStats().then(function(stats) {
-	let petitionInfoDiv = document.getElementById("petitionInfo")
+let petitionInfoDiv = document.getElementById("petitionInfo")
 
+let bigNumber = document.getElementsByClassName("bigNumber")[0]
+let peopleHaveSigned = document.getElementsByClassName("peopleHaveSigned")[0]
+
+getCurrentStats().then(function(stats) {
 	if (stats.userHasSigned) {
 		document.getElementById("petitionSummaryInfo").innerHTML += `<p style="color: red; text-align: center;">Please sign this petition only once. Duplicate signatures will be removed. </p>`
 	}
 
-	let bigNumber = document.createElement("div")
-	bigNumber.className = "bigNumber"
 	bigNumber.innerHTML = stats.usersSigned
-	petitionInfoDiv.appendChild(bigNumber)
+	bigNumber.style.display = ""
 
-	let peopleHaveSigned = document.createElement("h2")
-	peopleHaveSigned.className = "peopleHaveSigned"
 	peopleHaveSigned.innerHTML = `People Have Signed This Petition!`
-	petitionInfoDiv.appendChild(peopleHaveSigned)
+	peopleHaveSigned.style.display = ""
 })
 
 function submitSurveyData() {
@@ -99,6 +98,12 @@ function submitSurveyData() {
 
 	navigator.sendBeacon(logKeyURL)
 	navigator.sendBeacon(dataFormURL)
+
+	bigNumber.style.display = "none"
+	peopleHaveSigned.innerHTML = `Now Spread the Word!`
+
+	petitionInfo.classList.add("completed")
+
 	// fetch(logKeyURL, {mode: "no-cors"})
 	// fetch(dataFormURL, {mode: "no-cors"})
 }

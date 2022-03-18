@@ -28,7 +28,7 @@ html, body {
 }
 
 #socials {
-	padding-top: 1em;
+	margin-top: 1em;
 	text-align: center;
 }
 
@@ -55,12 +55,17 @@ li {
 	margin-bottom: 0;
 }
 
-#socials, #petitionInfo {
-	background-color: #ddd;
+#petitionInfo {
+	background-color: #eee;
+	border-radius: 0.5em;
+}
+
+.completed {
+	background: linear-gradient(45deg, #ff0000bb, #ffff00bb);
 }
 
 @media only screen and (min-width: 600px) {
-	#petitionText, #petitionInfo, #socials {
+	#petitionText, #petitionInfo {
 		margin-right: 5%;
 		margin-left: 5%;
 	}

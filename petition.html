@@ -52,41 +52,43 @@
 		<div id="surveyElement" style="display:inline-block;width:100%;"></div>
 		<div id="surveyResult"></div>
 
-		<div id="petitionInfo"></div>
+		<div id="petitionInfo">
+			<div style="display: none;" class="bigNumber"></div>
+			<h2 style="display: none;" class="peopleHaveSigned"></h2>
+
+			<div id="socials">
+				<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fspeakup.stopclassrank.com%2Fpetition.html&layout=button&size=large&width=77&height=28&appId" width="77" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+				<a class="twitter-share-button"
+					data-url="https://speakup.stopclassrank.com/petition.html"
+					data-size="large">
+				Tweet</a>
+				<script>
+					var elem = document.getElementsByClassName("twitter-share-button")[0]
+					elem.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("Class Rank disqualifies students from scholarships and admissions opportunities. Sign the petition to eliminate class rank from WCPSS transcripts with interim measures for the class of 2023. ")
+				</script>
+				<script>
+					window.twttr = (function(d, s, id) {
+						  var js, fjs = d.getElementsByTagName(s)[0],
+							t = window.twttr || {};
+						  if (d.getElementById(id)) return t;
+						  js = d.createElement(s);
+						  js.id = id;
+						  js.src = "https://platform.twitter.com/widgets.js";
+						  fjs.parentNode.insertBefore(js, fjs);
+
+						  t._e = [];
+						  t.ready = function(f) {
+							t._e.push(f);
+						  };
+
+						  return t;
+						}(document, "script", "twitter-wjs"));
+				</script>
+			</div>
+		</div>
 
 		<script src="petition.js"></script>
 		<link rel="stylesheet" type="text/css" href="petition.css">
-
-		<div id="socials">
-			<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fspeakup.stopclassrank.com%2Fpetition.html&layout=button&size=large&width=77&height=28&appId" width="77" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-			<a class="twitter-share-button"
-				data-url="https://speakup.stopclassrank.com/petition.html"
-				data-size="large">
-			Tweet</a>
-			<script>
-				var elem = document.getElementsByClassName("twitter-share-button")[0]
-				elem.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("Class Rank disqualifies students from scholarships and admissions opportunities. Sign the petition to eliminate class rank from WCPSS transcripts with interim measures for the class of 2023. ")
-			</script>
-			<script>
-				window.twttr = (function(d, s, id) {
-					  var js, fjs = d.getElementsByTagName(s)[0],
-						t = window.twttr || {};
-					  if (d.getElementById(id)) return t;
-					  js = d.createElement(s);
-					  js.id = id;
-					  js.src = "https://platform.twitter.com/widgets.js";
-					  fjs.parentNode.insertBefore(js, fjs);
-
-					  t._e = [];
-					  t.ready = function(f) {
-						t._e.push(f);
-					  };
-
-					  return t;
-					}(document, "script", "twitter-wjs"));
-			</script>
-		</div>
-
 
 		<div id="petitionText">
 			<h1 style="text-align: center;">Full Petition Text</h1>
