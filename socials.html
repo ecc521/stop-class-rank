@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+	<body>
+		<div id="socials">
+			<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fspeakup.stopclassrank.com%2Fhome.html&layout=button&size=large&width=77&height=28&appId" width="77" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+			<a class="twitter-share-button"
+				data-url="https://speakup.stopclassrank.com/home.html"
+				data-size="large">
+			Tweet</a>
+			<script>
+				var elem = document.querySelector("a")
+				elem.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("Class Rank disqualifies students from scholarships and admissions opportunities. Learn more about the perils of class rank, and what you can do about it.")
+			</script>
+			<script>
+				window.twttr = (function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0],
+						t = window.twttr || {};
+					  if (d.getElementById(id)) return t;
+					  js = d.createElement(s);
+					  js.id = id;
+					  js.src = "https://platform.twitter.com/widgets.js";
+					  fjs.parentNode.insertBefore(js, fjs);
+
+					  t._e = [];
+					  t.ready = function(f) {
+						t._e.push(f);
+					  };
+
+					  return t;
+					}(document, "script", "twitter-wjs"));
+			</script>
+		</div>
+
+		<style>
+			.twitter-share-button {
+				margin-left: 6px;
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,43 @@
+.sv-body__page, .sv-body__footer {
+	margin-top: 0 !important; /*Override top padding on survey top and above footer (complete/sign button)*/
+}
+
+.bigNumber {
+	margin: auto;
+	margin-top: 20px;
+    width: 120px;
+    line-height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 54px;
+	background: linear-gradient(45deg, red, yellow);
+    border: 3px solid #333;
+}
+
+.peopleHaveSigned {
+	text-align: center;
+}
+
+#socials {
+	text-align: center;
+}
+
+#socials * {
+	margin: 10px;
+}
+
+#petitionText {
+	margin: 20px;
+	margin-top: 40px;
+}
+
+@media only screen and (min-width: 600px) {
+	#petitionText {
+		margin-right: 5%;
+		margin-left: 5%;
+	}
+}
+
+li {
+	margin-bottom: 8px;
+}
