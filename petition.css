@@ -1,3 +1,7 @@
+html, body {
+	background-color: white;
+}
+
 .sv-body__page, .sv-body__footer {
 	margin-top: 0 !important; /*Override top padding on survey top and above footer (complete/sign button)*/
 }
