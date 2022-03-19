@@ -96,7 +96,7 @@ function submitSurveyData() {
 
 	let dataFormURL = `https://docs.google.com/forms/d/e/1FAIpQLScZ7qtDBFzSwqGLUPwKjXw1N_H3UX--jDETenBSdR6RYKqALw/formResponse?entry.476670027=${encodedLogKey}&entry.131294692=${name}&entry.1336935614=${email}&submit=Submit`
 
-	navigator.sendBeacon(logKeyURL)
+	// navigator.sendBeacon(logKeyURL)
 	navigator.sendBeacon(dataFormURL)
 
 	bigNumber.style.display = "none"
@@ -104,6 +104,6 @@ function submitSurveyData() {
 
 	petitionInfo.classList.add("completed")
 
-	// fetch(logKeyURL, {mode: "no-cors"})
-	// fetch(dataFormURL, {mode: "no-cors"})
+	fetch(logKeyURL, {mode: "no-cors"})
+	fetch(dataFormURL, {mode: "no-cors"})
 }
