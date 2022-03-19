@@ -19,6 +19,11 @@ const contacts = {
 		style: "WCPSS"
 	},
 
+	"allboardmembers@chccs.k12.nc.us": {
+		title: "Chapel Hill-Carrboro School Board",
+		style: "CHCCS"
+	},
+
 	// "hscott@wcpss.net": {name: "Ms. Heather Scott", title: "WCPSS Board (District 1)", style: "WCPSS"},
 	// "mjohnsonhostler@wcpss.net": {name: "Ms. Monika Johnson-Hostler", title: "WCPSS Board (District 2)", style: "WCPSS"},
 	// "rcash@wcpss.net": {name: "Ms. Roxie Cash", title: "WCPSS Board (District 3)", style: "WCPSS"},
@@ -67,7 +72,7 @@ const subjects = [
 	"Latin Honors was the right idea - now eliminate class rank too",
 ]
 
-let filteredSubjects = subjects.slice(0, 3) //Only subjects that are applicable to both parents and students and all message styles. 
+let filteredSubjects = subjects.slice(0, 3) //Only subjects that are applicable to both parents and students and all message styles.
 
 let defaultSubject = filteredSubjects[Math.floor(Math.random() * filteredSubjects.length)]
 if (defaultSubject?.value) {defaultSubject = defaultSubject.value}
@@ -457,28 +462,93 @@ function generateMessage(style = "email") {
 	let ourOrTheir = typeOfPerson === "student" ? "our":"their"
 	let weOrThese = typeOfPerson === "student" ? "We":"These"
 
+
+	//These statements are intentionally seperated to improve rendering speed.
 	if (contact?.style === "WCPSS") {
-		message += `I am requesting that WCPSS eliminate class rank from transcripts. `
-		message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that WCPSS provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
+		message += `I am requesting that ${contact?.style} eliminate class rank from transcripts. `
+		message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that ${contact?.style} provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
 
 		message += `<br><br>`
 
-		message += `WCPSS runs some of the best and most competitive schools in the country. `
+		message += `${contact?.style} runs some of the best and most competitive schools in the country. `
 		message += `Removing class rank will allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
 		message += `Providing the option to remove class rank aligns with the goals of the Boards unanimous vote in 2016 to stop naming valedictorians in order to reduce competition and allow students to pick courses for interests and not weighted GPA. `
-		message += `Additionally, this action is entirely in the hands of WCPSS - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and WCPSS's goals cannot be achieved as long as a 1 to n class rank remains. `
+		message += `Additionally, this action is entirely in the hands of ${contact?.style} - while a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs, and ${contact?.style}'s goals cannot be achieved as long as a 1 to n class rank remains. `
 
 		message += `<br><br>`
 
 		message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. `
-		message += `The class rank for WCPSS is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
+		message += `The class rank for ${contact?.style} is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
 		message += `Class Rank places ${themOrUs} at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	else if (contact?.style === "CHCCS") {
+		message += `I am requesting that ${contact?.style} eliminate class rank from transcripts. `
+		message += `In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that ${contact?.style} provide ${themOrUs} the option to withhold class rank for out of state colleges, scholarship programs, and private universities. `
+
+		message += `<br><br>`
+
+		message += `${contact?.style} runs some of the best and most competitive schools in the country, and has previously pushed for legislation to make class rank reporting optional. Given the circumstances created by the COVID-19 pandemic, `
+		message += `removal of mandatory class rank reporting is more crucial than ever, and necessary to allow ${meOrMy} accomplishments to shine through and to compete fairly against students from other districts and states. `
+
+		message += `<br><br>`
+
+		message += `The requirement for class rank stems from GS 116-11(10a) and is therefore scoped by GS116-143.1(a)(3) to only apply to UNC system schools. `
+		message += `Therefore, removing class rank from transcripts sent to non-UNC system schools is an action is entirely in the hands of ${contact?.style}. `
+		message += `While a removal of Class Rank in all instances may require action by either the State Board or the General Assembly, there is no state law requiring class rank to be sent to non-UNC system colleges or programs. `
+
+		message += `<br><br>`
+
+		message += `The removal of class rank is imperative because the competition for class rank is not just unhealthy - the competition for class rank is fundamentally unfair. `
+		message += `The class rank for ${contact?.style} is not an accurate measurement of academic performance, and similarly competitive high schools across the country no longer rank. `
+		message += `Class Rank places ${themOrUs} at a serious disadvantage, and disqualifies ${themOrUs} from both admissions and scholarship opportunities. `
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	else if (contact?.style === "NC") {
 		message += `I am requesting that the North Carolina School Board explicitly authorize local school boards to report a Latin Honors based class rank, or eliminate class rank from NC transcripts. In the event that such a change is not possible in time for the Class of ${mostRecentClass ?? "2023"}, I am requesting that North Carolina School Board policy be amended to provide students the option to withhold class rank or report Latin Honors based class rank for out of state colleges, scholarship programs, and private universities.`
 
 		message += `<br><br>`
 
+		//TODO: This specific section is very focused (not applicable to all members).
 		message += `As the North Central representative to the State Board of Education, your District encompasses some of the most competitive schools in both North Carolina and the United States as a whole. ${weOrThese} are the students who are most seriously and directly harmed by NC class rank policy.  `
 
 		message += `<br><br>`
@@ -510,13 +580,13 @@ function generateMessage(style = "email") {
 		}
 	}
 
-	if (isKnownOvercompetitiveSchool && style === "email") {
-		message += `<br><br>Our WCPSS public high schools - particularly Green Level, Green Hope, Panther Creek, and Enloe - are highly competitive. Far more than half the students are on path to be recognized with WCPSS Latin Honors Summa Cum Laude or Magna Cum Laude recognition, and yet their college applications will be judged on numeric ranks in the bottom 50% rather than their WCPSS Latin Honors recognition. At least 25% of the students at every one of these schools are identified as AIG, far too many for an accurate class ranking. 25+% will never fit in the Top 10%. There are far more than ten "Top 10" quality students. There are too many exceptional students to provide a 1 to n ranking. `
+	if (contact?.style === "WCPSS" && isKnownOvercompetitiveSchool && style === "email") {
+		message += `<br><br>Our ${contact?.style} public high schools - particularly Green Level, Green Hope, Panther Creek, and Enloe - are highly competitive. Far more than half the students are on path to be recognized with ${contact?.style} Latin Honors Summa Cum Laude or Magna Cum Laude recognition, and yet their college applications will be judged on numeric ranks in the bottom 50% rather than their ${contact?.style} Latin Honors recognition. At least 25% of the students at every one of these schools are identified as AIG, far too many for an accurate class ranking. 25+% will never fit in the Top 10%. There are far more than ten "Top 10" quality students. There are too many exceptional students to provide a 1 to n ranking. `
 	}
 
 	message += `<br><br>`
 
-	message += `Class Rank is harmful and ${replacements["$IOrWe"]} request that it be removed. Let the students of WCPSS be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
+	message += `Class Rank is harmful and ${replacements["$IOrWe"]} request that it be removed. Let the students of ${contact?.style} be evaluated on their academic performance in high school, not on a metric disconnected from the grades they earned in their classes. `
 
 	if (style === "email") {
 		message += `<br><br>`
@@ -526,7 +596,7 @@ function generateMessage(style = "email") {
 		message +=`<br><br>Thank you for your time, service, and consideration.`
 		message += `<br><br>Sincerely,`
 		message += `<br>${name}`
-		message += `<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of WCPSS students` : `of a WCPSS student`) : ""}`
+		message += `<br>${data.personType} ${typeOfPerson === "student" ? "at " + school : ""}${typeOfPerson === "parent" ? (children.length > 1 ? `of ${contact?.style} students` : `of a ${contact?.style} student`) : ""}`
 		message += `<br>${typeOfPerson === "student" ? `Class of ${data.class}` : ""}`
 	}
 
