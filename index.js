@@ -457,7 +457,7 @@ function generateMessage(style = "email") {
 	//Flags:
 	// mostRecentClass
 
-	let meOrMy = typeOfPerson === "parent" ? `my ${childTerm}&#39;s` : "me"
+	let meOrMy = typeOfPerson === "parent" ? `my ${childTerm}&#39;s` : "my" //My or my child's/children's
 	let themOrUs = typeOfPerson === "student" ? "us":"them"
 	let ourOrTheir = typeOfPerson === "student" ? "our":"their"
 	let weOrThese = typeOfPerson === "student" ? "We":"These"
