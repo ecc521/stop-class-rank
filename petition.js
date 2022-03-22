@@ -7,7 +7,7 @@ let json = {
 		{
 			name: "name",
 			type: "text",
-			title: "Name: ",
+			title: "Full Name: ",
 			placeHolder: "Please enter your name...",
 			isRequired: true,
 			autoComplete: "name"
@@ -15,7 +15,7 @@ let json = {
 		{
 			name: "email",
 			type: "text",
-			title: "Email: ",
+			title: "Email (Not Shared): ",
 			placeHolder: "Please enter your email...",
 			isRequired: true,
 			inputType: "email",
@@ -96,14 +96,12 @@ function submitSurveyData() {
 
 	let dataFormURL = `https://docs.google.com/forms/d/e/1FAIpQLScZ7qtDBFzSwqGLUPwKjXw1N_H3UX--jDETenBSdR6RYKqALw/formResponse?entry.476670027=${encodedLogKey}&entry.131294692=${name}&entry.1336935614=${email}&submit=Submit`
 
-	// navigator.sendBeacon(logKeyURL)
+	//Based on experimental data, sendBeacon appears to be suffeciently reliable.
+	navigator.sendBeacon(logKeyURL)
 	navigator.sendBeacon(dataFormURL)
 
 	bigNumber.style.display = "none"
 	peopleHaveSigned.innerHTML = `Now Spread the Word!`
 
 	petitionInfo.classList.add("completed")
-
-	fetch(logKeyURL, {mode: "no-cors"})
-	fetch(dataFormURL, {mode: "no-cors"})
 }
