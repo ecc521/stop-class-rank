@@ -88,7 +88,7 @@ getCurrentStats().then(function(stats) {
 function submitSurveyData() {
 	let {name = "", email = ""} = survey.data
 
-	let encodedLogKey = encodeURIComponent(logKey) //Locally bound to not overwrite.
+	let encodedLogKey = encodeURIComponent(logKey)
 	name = encodeURIComponent(name)
 	email = encodeURIComponent(email)
 
