@@ -46,7 +46,7 @@ const contacts = {
 			"reginald.kenan@dpi.nc.gov",
 			"James.Ford@dpi.nc.gov",
 			"Jill.Camnitz@dpi.nc.gov",
-			"Donna.Tipton-Rogers@dpi.nc.gov",
+			//"Donna.Tipton-Rogers@dpi.nc.gov", //Email is broken. 
 			"JWendell.Hall@dpi.nc.gov",
 			"catherine.truitt@dpi.nc.gov",
 		],
